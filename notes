@@ -1,0 +1,553 @@
+BoilerPlate:
+
+Index.htm:
+
+<html ng-app="myApp" lang="en”>
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+     	<title>Enter Title Here</title>
+     	<link rel="stylesheet" href="main.css">
+    	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+  </head>
+  <body ng-controller="mainController"> 
+  	<h1>This is an editable profile form</h1>
+  	<script type="text/javascript" src="main.js"></script>
+  </boddy>
+
+</html>
+
+
+main.js
+
+//Setting an Angular module: myApp
+angular.module ('myApp',[])
+
+//Defining the Controller function: mainControllerFunc
+var mainControllerFunc = function ($scope) {
+//var mainControllerFunc = function ($scope, $timeout) {
+
+// $timeout(function(){
+// 	document.getElementById(‘elementId').focus()
+// },0)
+
+}
+
+//Registering the controller: mainController
+angular.module('myApp').controller('mainController',['$scope',mainControllerFunc])
+//angular.module('myApp').controller('mainController',['$scope','$timeout', mainControllerFunc])
+
+********************************************
+
+
+AngularJS
+
+What is Angular?
+
+A strongly opinionated front-end, MVC, Framework.
+
+Framework: code that someone else has written that you can use in your project. It’s bigger than a library. It is an all-in-one-solution
+
+MVC: Model View Controller:
+
+Model is your raw data (also keeps track and stores your session state)
+var topGun = {
+title:’ Top Gun’,
+}
+
+View is the visual representation of your model
+
+Controllers are the glue that connects the view and the model
+
+—————
+Imperative programming (jquery)- the program performs a series of actions
+eg:
+select the button
+listen for clicks on the button
+when the button is clicked, check if it has the .active class
+if it has the active class, remove it.
+If it does not have the active class, add it.
+—————
+
+Declarative programming (angular)- Declare relationships between different pieces of code, e.g.: relationships between the model and the view.
+
+var buttonActive = false
+<button class="is button active? then .active”
+whenClicked= "buttonActive = !buttonActive" >
+
+———
+how to use angular?
+
+in html file:
+<html ng-app=“myApp” lang=‘en”></html> //call to angular module in your html tag
+<head>
+  <script src=“https://from the web”></script> // call to angular files in your html header
+</head> 
+<body> 
+  <div  ng-contorller=“mainController”> //call to your controller in your div
+    <h1 ng-click=“excite ()"> {{greeting}} </h1>  // scope variables are called using double mustaches {{}}, the mustache defines and angular expression
+                      // scope functions are called using directives
+    <h2> {{excitement}} </h2>       //will not work because is excitement is not bound
+    <div ng-repeat=“movie in movies”>   //defined a relationship between my div and my array -> will cause the div to repeat for as many times as the array has elements, in this case twice
+                      //movie is a variable we just defined as an element of the movies array
+                      //in is the syntax that assigns the local movie element to the appropriate movies element
+                      //movies refers to the $scope.movies array of object in our controller  
+      <h1> {{movie.title}}    </h1>
+      <h2> {{movie.genre}}  </h2>
+      <h3> {{$index}}   </h3>   //predefined bound variable that gives you the index of the array
+    </div>
+  </div>
+  <script src=“pre-main.js”></script> //in case of dependencies 
+  <script src=“main.js”></script>
+</body>
+</html>
+//ng-app, ng-controller, ng-click, ng-repeat are referred to as directives
+
+in javascript .js file:
+// A -SETTING an angular module with the name ‘myApp’ and no dependencies ‘[]'
+angular.module (‘myApp', []) // declare an angular module, the [] means their are no dependencies
+// B - DEFINE your controller
+var mainControllerFunc = function ($scope, someOtherDependency) {
+  $scope.greeting = ‘Hello World”   //this is a combination of Model and Controller from MVC
+                // scope.greeting is bound to my html
+  var excitement = 0        //excitement is not bound to the html
+  $scope.excite = function () {   //$scope.excite is a click handler, it handles click events
+    excitement++
+    if ( excitement <5 ) {
+      $scope.greeting =+ ’!'
+    }
+  }
+  
+  var citizenKane = {                 //defining a local object
+    title     : ‘citizen Kane’,
+    genre :’Comedic Thriller’,
+  }
+  var silenceOfTheLambs = {             //defining a local object
+    title   :’
+    genre :'
+  }
+  $scope.movies = [citizenKane, silenceOfTheLambs]    //array of objects bound to the html
+  
+ }
+// C - REGISTER your Controller
+//GET the module, use it to create a contoller.
+//The controller needs a name, and an array of dependencies. the last item in the dependency array is the controller itself.
+angular.module(‘myApp’).controller( ‘mainController’, [ ‘$scope’ , ’someOtherDependency’ , mainControllerFunc ] )
+
+____________
+
+Two way data binding:
+ng-model / ng-class / ng-show(hide) / ng-src(href)
+
+A-
+ng-model: provides 2-way data binding, allowing the user actions in inputs in the view to change values in the model.
+$scope.party = “Hot dog eating contest"
+<input ng-model=“party”>              
+
+B-
+ng-class: lets you dynamically set classes on your elements, based on scope variables.
+  1: You have a scope variable with a string value, and you want an element to have the class with that name
+    $scope.partyColor = “peachpuff"
+    <h1 ng-class=“partyColor”> Welcome to the {{party}}!</h1>     //party and partyColor are both $scope variable defined in the model Controller
+    <input ng-model=“partyColor”>
+
+  2: You have a scope variable with a boolean value. if that value is true, apply a certain class to that element. if the value is false, do not apply that class to the element.
+    $scope.important = false
+    <h1 ng-class=“{big : important}”>welcome to the {{party}}!</h1>    //we have an object: the key (big) is the class in the css file, and the value (important) is the $scope boolean variable. can have multiple keys of boolean values
+    <input type="checkbox” ng-model=“important”>
+
+    $scope.bigness = 12             
+    <h1 style=“font-size:{{bigness}}px”> Welcome to the {{party}}!</h1>       
+    <input type=“range” ng model=“bigness">
+
+  3: both of the above. Use an array full of strings and objects      //to mix strings, booleans
+    <h1 ng-class=“[{big : important}, partyColor]”>welcome to the {{party}}!</h1>   //both will impact the style.
+
+C-
+ng-show or ng-hide: dynamically hide or reveal an element based on a boolean value
+  $scope.cancel = false
+  <h1 ng-show=“cancel”>Welcome to the {{party}}</h1>
+  <input type="checkbox” ng-model=“cancel”>
+
+D-
+ng-src:/ng-href: dynamically set sources/hrefs for links and images. This prevents the browser from accidentally sending a request to a fake URL.
+  $scope.imgURL = “http://lorempixel.com/…"
+  <img ng-src=“{{imgURL}}”>       // this is kind of an inconsistent syntax, needing the {{}}
+
+
+________________
+
+Event Handling 
+
+  $scope.toggleImportance = function () {
+    $scope.important = !$scope.important
+  }
+  <h1 ng-click=“toggleImportance()”> 
+
+Event Object contains additional information about the event //pass ($event) as an argument
+
+  $scope.handleKeydown = function (event) {
+    console.log(event.which)         //which tells us which key was pressed
+    if (event.which === 32 ) {        // looking for space key
+    event.preventDefault()        //preventDefault()
+    console.log(‘space!’)
+    }
+  }
+  <h1 ng-keydown=“handleKeydown($event)”>     //keydown, keyup, keypress
+
+ng-submit - triggers when a form is submitted. this directive automatically prevents default from behavior.
+
+
+Passing arguments:   //most commonly $event for and $index
+
+  $scope.people = [‘alice’, ’bob’, ‘carlos']
+  $scope.whichPerson = function (index) {
+    console.log (index)
+  console.log($scope.people[index])
+  } 
+  <div ng-click=“whichPerson($index)"   ng-repeat=“person in people”>
+    <p>{{person}}</p>
+  </div>
+
+event bubbling or event propagation // happens if you have an event handler on a html tag and another one on its containing/parent tag
+
+  $scope.clickDiv = function () {
+    console.log(‘you clicked an DIV’)
+  }
+  $scope.clickIMG = function () {
+    console.log(‘you clicked an IMG’)
+  }
+  <div ng-click=“clickDiv()”>             //if you click on the div, you only get the div message
+    <img ng-click=“clickIMG()”>       //if you click on the image, you get both message -> bubbling/propagation
+  <div>
+
+To stop propagation: // use $event.stopPropagation on the child event handler
+
+  $scope.clickIMG = function (event) {
+    event.stopPropagation()         // now if you click on the img it won’t propagate.
+    console.log(‘you clicked an IMG’)
+  }
+  <div ng-click=“clickDiv()”>
+    <img ng-click=“clickIMG($event)”>
+  <div>
+
+___________
+
+Objects and ng-repeat:
+
+$scope.profileObj = {
+  First: 'Edouard',
+  Last: 'Khoukaz',
+  Phone: '646 283 7464',
+}
+
+<tr ng-repeat="(key, value) in profileObj">
+          <td>{{key}}</td>
+          <td>{{value}}</td>
+</tr>
+
+_____________________
+
+
+
+Filters and Factories:
+
+Filters are used to format values   // use the pipe ‘|’ syntax
+$scope.greeting = ‘Hello world'
+{{ greeting | uppercase}}     -> will display HELLO WORLD
+
+{{greeting | uppercase | lowercase }}  // you can have multiple filters; the last one takes precedence.
+
+{{currency_expression | currency : symbol : fractionSize}}  // use the colon ‘:’ to pass on arguments to your filters.
+
+the filter filter is like a combination of ng-show and ng-if: used with ng-repeat to completely remove an array item from being included. 
+
+//Create Custom filter
+
+<h1>{{greeting | excite:true }}</h1>3
+
+angular.module(‘app’).filter(‘excite’,function(){ //we have declared a cusom filter and named our filter 'excite'
+  
+  return function(expression, depress){   //the value of greeting will be the first argument (expression), and the value of excite will be the 2nd argument (depress)
+  
+  //@param depress Boolean  
+
+  //Add ‘!!’ to the end
+  //Uppercase it
+
+  //if depressed, lowercase
+  //Add ‘… I guess’ to the end
+
+  if(depress) {
+    return expression.toLowerCase() + ‘… I guess'
+  } else {
+    return expression.toUpperCase() + ‘!!!’
+  }
+})
+
+//Injecting the filter  (only needed if we are going to use the filter in the controller functions opposed to the html template like right above. Meaning we don’t have to use the pipe syntax in the html
+
+<h1>{{awesomeGreeting}}</h1>
+
+//@definition
+var mainControllerFunc = function ($scope, $filter) {                   //to inject the filter, we add it as an argument to the controller function
+  
+  $scope.greeting = ‘ Hello world'
+  var exciter = $filter(‘excite’)
+  $scope.awesomeGreeting = exciter($scope.greeting)
+}
+
+//@registration
+angular.module(‘myApp’).controller( ‘mainController’, [ ‘$scope’ , ’$filter' , mainControllerFunc ] )   //to inject the filter, we add it as a dependency when registering the controller
+
+*************************
+*************************
+
+Factories:
+
+Let’s say we have 2 (more than one) controllers, and we want to share 
+
+
+//Register a factory
+angular.module(‘app’).factory(‘wonkaFactory’, [function() {
+
+  var books = [
+    {
+      title : ‘My Book'
+      year  : 2015
+      author  : ‘Ed'
+    }
+
+    {
+      title : ‘My Book'
+      year  : 2015
+      author  : ‘Ed'
+    }
+  ]
+
+  return {
+    bookList : books
+    otherProp : ‘Other Prop'
+  }
+}])
+
+
+//Register the second controller
+
+
+//Controller 2  //you add the factory as a dependency and as an argument (notice the dependency does not need the $ sign
+angular.module(‘myApp’).controller(‘fridayController, [‘$scope’ , ‘wonkaFactory’, function($scope, wonkaFactory) {  
+    $scope.books = wonkaFactory.bookList
+}])
+
+//Controller 1 // add the factory as a dependency and then a n argument in the defined mainControllerFunc
+
+@definition
+var mainControllerFunc = function ($scope, $filter, wonkaFactory) {
+
+    $scope.books = wonkaFactory.bookList
+    wonkaFactory.bookList.push({
+      title   :  ‘another title'
+      year    :  2020
+      author  : ‘all'
+    })
+
+}
+@registration
+angular.module(‘myApp’).controller( ‘mainController’, [ ‘$scope’ , ’$filter’, ‘wonkaFactory' , mainControllerFunc ] ) 
+
+<ul>
+  <li ng-repeat="book in books | orderBy:’author'” >   // you can add filters to ng-repeat
+    <p>{{book.title}}</p>
+    <p>{{book.year}}</p>
+    <p>{{book.author}}</p>
+  </li>
+</ul>
+
+*************************
+*************************
+
+
+Java Script
+
+Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+(properties and methods)
+
+Types:
+Every type has a LITERAL representation: the simplest, and most straightforward way to represent that value.
+
+Primitive types:
+Numbers
+Strings   -> needs quotation: ‘ or “
+Boolean
+
+---
+Console.log(x) // to view your variable in the browser’s dev tool’s console.
+console.log(typeof x)
+------
+\n   -> line break
+------
+
+OPERATORS let you combine multiple values to produce a new value.
+
+For strings the + operator is for concatenation not addition
+
+VARIABLES: a name that refers to a value.
+var result = 10/3
+console.log(results) —> 3.333333333
+a variable name must start with a letter, _, or $, (no number) and can contain only letters, numbers, _, or $.
+
+PROPERTY: some values have other values attached to them.
+eg: Console.log(variable.length) //dot notation used to access a property by name
+
+bracket notation and dot notations are interchangeable when calling properties: bracket notation MUST be used when the property name is not a valid variable, or it not known in advance (meaning that it needs to be calculated)
+eg: console.log(variable[variable.length - 1])
+
+_________________
+== Coercive equality: console.log(10 == 10) true
+=== Strict equality: console.log(’10' === 10) false
+_________________
+
+Prompt: //to request an input from the user
+var age = prompt(“how old are you”)
+—————
+// to avoid an error if the user clicks on ‘Cancel’ in the prompt and therefore the value is null, it is best to initiate the variable of a function in the following way
+
+var functionName = function (string, number, array, obj) {
+  string = string || ‘’
+  number = number || 0
+  array = array || []
+  obj = obj || {} 
+}
+
+console.log( functionName( prompt( ‘please input a variable’) ) ) 
+————— 
+
+to convert a string into a number, use the + operator in front of the string variable.
+
+if ( +age >= 21 ) {
+  canDrink = False
+}
+else {
+canDrink = false
+}
+———————————
+var++ VS ++var  the second increments than displays/returns
+
+——————————————
+
+Non-Primitive types: (arrays, objects, functions)
+
+Arrays -> need brackets: var name[ ]
+array.push(‘’) // adds what is in parenthesis as the last array element
+array. pop() // remove the last array entry
+
+Stack: FILO (first in last out)
+Queue: FIFO (first in first out)
+
+myArray[i] = myArray[i].toUpperCase()
+console.log(myArray)
+
+
+--
+Arrays have numbered index to store ordered values
+Objects have named indexes to store unordered values
+--
+
+Objects -> needs { } in declaration, and commas after each key assignment 
+eg:
+var myobj = {}
+var topGun = {
+  title: ‘Top Gun’,             <— comma
+  genre: ‘Historical Bio’, 
+  rating: 6.8,
+} //we just declared an object literal
+
+// title, genre, ratings are Keys. They have a string value.
+
+for (var key in topGun) {
+console.log(key)  -> will return: title, genre, rating
+console.log(topGun[key])   -> will return: Top gun, Historical Bio, 6.8
+console.log(‘the ‘ + key + ‘ of the movie is ‘ + topGun[key])
+}
+
+// in comparing arrays to objects: the array uses number for its indexes -> myArray[i], while the object uses keys -> myObj[key] 
+console.log(topGun[‘genre’]) -> Historical Bio
+
+var movies = []
+movies.push(topGun)
+movies.push(meanGirls)
+console.log(movies)
+
+Objects in Angular (ng-repeat):
+$scope.profileObj = {
+  First: 'Edouard',
+  Last: 'Khoukaz',
+  Phone: '646 283 7464',
+}
+
+<tr ng-repeat="(key, value) in profileObj">
+          <td>{{key}}</td>
+          <td>{{value}}</td>
+</tr>
+____________________________________
+Functions:
+functions need top be defined AND invoked.
+
+TO DEFINE //a variable POINTING to an ANONYMOUS function
+var calculateArea = function(width,height) {
+  return width*height
+}
+
+TO INVOKE:
+console.log( calculateArea(4,19) )
+or
+var boxArea = calculateArea(4,19)
+console.log(boxArea)
+
+other way to define: // NAMED function
+function calculateVolume(w,h,d) {
+  return w*h*d
+}
+console.log(calculateVolume(3,8,4) )
+
+callback functions: // a call back function is a function that is called by the DOM
+
+var changeHandler = function() {
+  var val = document.getElementById(‘mySelect’).value
+  console.log(val)
+}
+document.getElementById(‘mySelect’).addEventListener(‘change’, changeHandler)   //change is a predefined EVENT
+
+Recursive functions ????  // a recursive function is a function that calls itself. need to have a condition to break out and avoid an infinite loop
+var countDown = function(number) {
+  console.log(number)
+  if (number >0) {
+  countDown(number-1)
+  }
+}
+console.log (countDown(10))
+
+
+
+———
+Methods:
+a method is a CALLABLE property //so a property that is also a function
+var myArray = []
+myArray.push(‘hello’)
+
+var myString = ‘im so quiet…'
+console.log(myString.toUpperCase() )
+
+//turn a string into an array, use split()
+var stringArray = myString.split (' ‘) -> [Im, so, quiet]
+//the reverse, from array to string, use join()
+stringArray.join(‘ ')
+
+
+Scope
+Functions create SCOPE // their variable are not accessible from their parents.
+//the parent variable is accessible from the function if the variable is defined before the function is called (could be after the function is defined)
+
+note: loops and if statements do not create their own scope.
+
