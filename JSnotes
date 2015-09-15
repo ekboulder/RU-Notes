@@ -1,0 +1,317 @@
+Java Script
+
+Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+(properties and methods)
+
+Types:
+Every type has a LITERAL representation: the simplest, and most straightforward way to represent that value.
+
+Primitive types:
+Numbers
+Strings   -> needs quotation: ‘ or “
+Boolean
+
+---
+Console.log(x) // to view your variable in the browser’s dev tool’s console.
+console.log(typeof x)
+------
+\n   -> line break
+------
+
+OPERATORS let you combine multiple values to produce a new value.
+
+For strings the + operator is for concatenation not addition
+
+VARIABLES: a name that refers to a value.
+var result = 10/3
+console.log(results) —> 3.333333333
+a variable name must start with a letter, _, or $, (no number) and can contain only letters, numbers, _, or $.
+
+PROPERTY: some values have other values attached to them.
+eg: Console.log(variable.length) //dot notation used to access a property by name
+
+bracket notation and dot notations are interchangeable when calling properties: bracket notation MUST be used when the property name is not a valid variable, or it not known in advance (meaning that it needs to be calculated)
+eg: console.log(variable[variable.length - 1])
+
+_________________
+== Coercive equality: console.log(10 == 10) true
+=== Strict equality: console.log(’10' === 10) false
+_________________
+
+Prompt: //to request an input from the user
+var age = prompt(“how old are you”)
+—————
+// to avoid an error if the user clicks on ‘Cancel’ in the prompt and therefore the value is null, it is best to initiate the variable of a function in the following way
+
+var functionName = function (string, number, array, obj) {
+	string = string || ‘’
+	number = number || 0
+	array = array || []
+	obj = obj || {} 
+}
+
+console.log( functionName( prompt( ‘please input a variable’) ) ) 
+————— 
+
+to convert a string into a number, use the + operator in front of the string variable.
+
+if ( +age >= 21 ) {
+	canDrink = False
+}
+else {
+canDrink = false
+}
+———————————
+var++ VS ++var  the second increments than displays/returns
+
+——————————————
+
+Non-Primitive types: (arrays, objects, functions)
+
+Arrays -> need brackets: var name[ ]
+array.push(‘’) // adds what is in parenthesis as the last array element
+array. pop() // remove the last array entry
+array.sort()	// simple alphabetical sort // doesn’t work on objects
+array.split()
+
+push, pop, sort are DESTRUCTIVE methods  cause they modify the original array
+in contrast, split is NON-DESTRUCTIVE because it returns a new array instead of modifying the original one.
+
+Stack: FILO (first in last out)
+Queue: FIFO (first in first out)
+
+myArray[i] = myArray[i].toUpperCase()
+console.log(myArray)
+
+
+--
+Arrays have numbered index to store ordered values (arrays are specialized objects, where the indices are numerical keys)
+Objects have named indexes to store unordered values
+--
+
+Objects -> needs { } in declaration, and commas after each key assignment 
+eg:
+var myobj = {}
+var topGun = {
+	title: ‘Top Gun’,             <— comma
+	genre: ‘Historical Bio’, 
+	rating: 6.8,
+} //we just declared an object literal
+
+// title, genre, ratings are Keys. They have a string value.
+
+for (var key in topGun) {
+console.log(key)  -> will return: title, genre, rating
+console.log(topGun[key])   -> will return: Top gun, Historical Bio, 6.8
+console.log(‘the ‘ + key + ‘ of the movie is ‘ + topGun[key])
+}
+
+// in comparing arrays to objects: the array uses number for its indexes -> myArray[i], while the object uses keys -> myObj[key] 
+console.log(topGun[‘genre’]) -> Historical Bio
+
+var movies = []
+movies.push(topGun)
+movies.push(meanGirls)
+console.log(movies)
+
+Objects in Angular (ng-repeat):
+$scope.profileObj = {
+	First: 'Edouard',
+	Last: 'Khoukaz',
+	Phone: '646 283 7464',
+}
+
+<tr ng-repeat="(key, value) in profileObj">
+          <td>{{key}}</td>
+          <td>{{value}}</td>
+</tr>
+____________________________________
+Functions:
+functions need top be defined AND invoked.
+
+TO DEFINE //a variable POINTING to an ANONYMOUS function
+var calculateArea = function(width,height) {
+	return width*height
+}
+
+TO INVOKE:
+console.log( calculateArea(4,19) )
+or
+var boxArea = calculateArea(4,19)
+console.log(boxArea)
+
+other way to define: // NAMED function
+function calculateVolume(w,h,d) {
+	return w*h*d
+}
+console.log(calculateVolume(3,8,4) )
+
+callback functions: // a call back function is a function that is called by the DOM. you define it, but you never call it yourself. the system call it (the browser, the server, etc) when it is needed
+
+var changeHandler = function() {
+	var val = document.getElementById(‘mySelect’).value
+	console.log(val)
+}
+document.getElementById(‘mySelect’).addEventListener(‘change’, changeHandler)   //change is a predefined EVENT
+
+setTimeout(function, time in ms) 	// i never call myFunction, setTimeout call is it for me.
+setInterval(function, time in ms)	// same but instead of calling it once after the time set, it call is recursively after the interval.
+clearInterval(  )				// used in conjunction with setInterval in order to stop the interval loop
+
+eg:
+var interval ID = setInterval (…)
+clearinterval (intervalID)
+
+//Angular doesn’t like setTimeout r setInterval. If you change scope variable in a timeout, angular might not notice the change. Use angular $timeout and $interval instead.
+
+Recursive functions ????  // a recursive function is a function that calls itself. need to have a condition to break out and avoid an infinite loop
+var countDown = function(number) {
+	console.log(number)
+	if (number >0) {
+	countDown(number-1)
+	}
+}
+console.log (countDown(10))
+
+function’s built-in arguments object :
+You can access the parameters passed to a function using the built in arguments object
+
+var myLog = function () {
+	console.log (arguments) -> [‘take', ‘this', ‘arg']
+	console.log (typeof arguments) -> 3
+	console.log(arguments[0]) //first parameter -> take
+	console.log(arguments[1]) //second parameter -> this
+	console.log(arguments[2]]) //3rd parameter -> arg
+}
+
+myLog( ‘take’, ‘this’, ‘arg’)   //I’m passing 3 parameters while it is not expecting any.
+
+———
+Methods:
+a method is a CALLABLE property //so a property that is also a function
+var myArray = []
+myArray.push(‘hello’)
+
+var myString = ‘im so quiet…'
+console.log(myString.toUpperCase() )
+
+//turn a string into an array, use split()
+var stringArray = myString.split (' ‘) -> [Im, so, quiet]
+//the reverse, from array to string, use join()
+stringArray.join(‘ ')
+
+
+Scope
+Functions create SCOPE // their variable are not accessible from their parents.
+//the parent variable is accessible from the function if the variable is defined before the function is called (could be after the function is defined)
+
+note: loops and if statements do not create their own scope.
+
+_________________________
+
+True False Truthy and Falsy values:
+
+the boolean true is true and the boolean false is fake
+undefined, null, NaN, ‘’ (an empty string), and  0 (zero) , are Falsy
+all others, including an empty array or an empty object are truthy
+but an empty property of an object is falsy (cause it will be undefined.)
+
+var config = function (args) {
+	args.people = args.people || [{name: ‘Alice’}, {name: ‘ bob’}]			// the OR operator ‘||’ allows you to set default values to args that may not be properly passed to the function  
+	return args
+}
+
+console.log( config ( { people:[] } ) )		//an empty array is still truthy. It won’t be replaced by the default
+console.log(config({})) 				//args.people is undefined. It will get replaced with there default array.
+
+_________________________
+
+SORTING
+
+myArray.sort(function(a,b) { … } ) 		// the sort method does a simple alphabetical ordering
+								// it works on array not objects. in case of objects, you need to set up a custom sort function
+								// for customized ordering, use a function as an argument. the function return will determine the order: 
+								//-1 = b comes first, 1 = a comes first, 0= no ordering necessary, in last case, might want to introduce new sorting criteria
+
+
+names = [
+	{name: ‘bob bobberson’},
+	{name: 'carlos bobsmith},
+	{name: ‘alice bobbins’},
+	{name: ‘dan b’},
+	
+]
+
+names.sort (function (argA, argB) {	//simple example 
+	if (argA.name > argB.name) {
+		return -1
+	} else if (argA.name < argB.name) {
+		return 1
+	} else if (argA.name === argB.name) {
+		return 0
+	}
+})
+
+console.log(names)
+
+names = [
+	{name: ‘bob bobberson’, age:12},
+	{name: 'carlos bobsmith’, age:42},
+	{name: ‘alice bobbins', age:22},
+	{name: ‘dan b‘, age:98 },
+]
+
+
+
+names.sort (function(argA,argB) {		//here is a custom sort that sorts by the number of ‘b’s in the string. incase the same number of ‘b’s, sort by age.
+	var BinA = 0
+	var BinB = 0
+	for (var i=0; i <argA.name.length; i++) {
+		if (argA.name[i] === ‘b’) {
+		BinA++
+		}
+	}
+	for (var i=0; i <argA.name.length; i++) {
+		if (argB.name[i] === ‘b’) {	
+		BinB++
+		}
+	}
+	//return BinA - BinB				//introducing a secondary sorting option 
+	if ( !(BinA === BinB) ) {			
+		return BinA - BinB
+	} else {
+		return argA.age - argB.age
+	}
+})
+
+console.log(names)
+
+names.sort(function (a,b) {
+	return a.age - b.age
+})
+
+——————————
+
+
+SCOPE , CLOSURE and Garbage Collect
+
+var counterConstructor = function () {
+	var start = 0
+	// javascript will not garbage collect start because the counter function depends on it. the counter function has CLOSURE over the start variable
+	var counter = function () {
+	console.log(start++)	
+	}
+	return counter			//notice that we are returning the counter, not counter(). 
+}
+
+var myCounter = counterConstructor()
+var yourCounter = counterConstructor()
+
+myCounter() -> 0
+myCounter() -> 1
+myCounter() -> 2
+myCounter() -> 3
+yourCounter() -> 0
+yourCounter() -> 1
+myCounter() -> 4
+yourCounter() -> 2
